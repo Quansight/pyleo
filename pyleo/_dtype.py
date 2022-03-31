@@ -1,15 +1,15 @@
+import re
+
 from pandas._libs.tslibs import Timestamp
-from pandas.core.dtypes.dtypes import register_extension_dtype, DatetimeTZDtype, PandasExtensionDtype
+from pandas.core.dtypes.dtypes import register_extension_dtype, PandasExtensionDtype
 
 
 @register_extension_dtype
 class PyleoDatetimeDType(PandasExtensionDtype):
     name = 'pyleo_dt'
     kind = 'M'
-    _unit = 'ns'
-    _tz = None
-    _known_formats = 'kyr BP',
     type = Timestamp
+    _known_formats = 'kyr BP',
 
     # TODO Using the name `format` here which refers to pyleoclim unit, (something like "kyr BP",
     # thousands of years since present time), since `unit` is the original DatetimeTZDtype
@@ -28,3 +28,13 @@ class PyleoDatetimeDType(PandasExtensionDtype):
     def construct_array_type(cls):
         from ._array import PyleoDatetimeArray
         return PyleoDatetimeArray
+
+    @classmethod
+    def construct_from_string(cls, string):
+        match = re.search(r'^pyleo_dt\[(.*)\]$', string)
+        if not match:
+            raise TypeError(f"Cannot construct a '{cls.__name__}' from '{string}'")
+        format = match.group(1)
+        if format != 'kyr BP':
+            raise ValueError(f'Unknown format {format}')
+        return cls(format=format)

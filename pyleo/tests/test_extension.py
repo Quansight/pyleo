@@ -1,7 +1,7 @@
 import datetime
 
 import pandas
-import pyleo  # noqa F401: Loading dtypes and accessors
+import pyleo
 
 
 def test_kyrbp_to_epoch_days():
@@ -19,8 +19,7 @@ def test_dtype():
 
 def test_create_series():
     data = pandas.Series([.04, .0299, .02],
-                         #  dtype='pyleo_dt[kyr BP]')
-                         dtype=pyleo.PyleoDatetimeDType(format='kyr BP'))
+                         dtype='pyleo_dt[kyr BP]')
 
     assert isinstance(data, pandas.Series)
     assert data.dtype.name == 'pyleo_dt'

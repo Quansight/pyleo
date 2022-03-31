@@ -1,8 +1,9 @@
-from ._dtype import PyleoType
-from ._array import PyleoArray
-from ._accessor import PyleoAccessor
+from ._dtype import PyleoDatetimeDType
+from ._array import PyleoDatetimeArray
+from ._accessor import PyleoAccessor  # noqa F401: No need to make public, just register
 
 
-# TODO: We probably don't want to make them public, just register the
-# dtype and accessors
-__all__ = 'PyleoType', 'PyleoArray', 'PyleoAccessor'
+del PyleoAccessor
+
+
+__all__ = 'PyleoDatetimeDType', 'PyleoDatetimeArray'

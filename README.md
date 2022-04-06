@@ -11,7 +11,7 @@ To setup a development environment, with an activated virtual environment,
 and in the root of the project (where `setup.cfg` lives) you can run:
 
 ```bash
-$ python -m pip -e $(pwd)[dev]
+$ python -m pip install -e $(pwd)[dev]
 ```
 
 This will install the dependencies required by the project, and the tools
